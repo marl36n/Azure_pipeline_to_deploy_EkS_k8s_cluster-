@@ -35,7 +35,7 @@ stages:
         Dockerfile: '**/Dockerfile'
     - task: PublishPipelineArtifact@1
       inputs:
-        targetPath: '$(Pipeline.Workspace)/kubernetes'
+        targetPath: '$(Pipeline.Workspace)/s/kubernetes'
         artifact: 'manifests'
         publishLocation: 'pipeline'
 - stage: Deploy
@@ -57,5 +57,5 @@ stages:
         kubernetesServiceConnection: 'kubernetes'
         namespace: 'default'
         manifests: |
-          $(Pipeline.Workspace)/manifests/deployments.yaml
+          $(Pipeline.Workspace)/manifests/deployment.yaml
           $(Pipeline.Workspace)/manifests/service.yaml
