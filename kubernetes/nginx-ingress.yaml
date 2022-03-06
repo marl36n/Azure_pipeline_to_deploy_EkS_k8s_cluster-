@@ -1,0 +1,14 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-myservicea
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: selise.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: selise
+          servicePort: 80
