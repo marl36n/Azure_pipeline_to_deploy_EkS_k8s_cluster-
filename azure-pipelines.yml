@@ -33,3 +33,30 @@ stages:
         repository: 'marlin1993/selise'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Pipeline.Workspace)'
+        artifact: 'manifests'
+        publishLocation: 'pipeline'
+- stage: Deploy
+  displayName: Deploy to Dev
+  dependsOn: Build
+  jobs:
+  - job: deploy
+    displayName: Deploy to AKS
+    pool: 
+      vmImage: ubuntu-latest
+    steps:
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        buildType: 'current'
+        artifactName: 'manifests'
+        targetPath: '$(Pipeline.Workspace)/manifests'
+    - task: KubernetesManifest@0
+      inputs:
+        action: 'deploy'
+        kubernetesServiceConnection: 'kubernetes'
+        namespace: 'default'
+        manifests: |
+          $(Pipeline.Workspace)/manifests/deployments.yaml
+          $(Pipeline.Workspace)/manifests/service.yaml
