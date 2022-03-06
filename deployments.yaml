@@ -17,3 +17,5 @@ spec:
       containers:
       - name: selise
         image: marlin1993/selise:16
+        ports:
+        - containerPort: 80
