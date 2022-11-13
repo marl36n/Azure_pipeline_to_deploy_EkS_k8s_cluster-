@@ -43,8 +43,9 @@ stages:
   dependsOn: Build
   jobs:
   - job: deploy
-    displayName: Deploy to AKS
-    pool: default
+    displayName: Deploy to EKS
+    pool: 
+      vmImage: ubuntu-latest
     steps:
     - task: DownloadPipelineArtifact@2
       inputs:
